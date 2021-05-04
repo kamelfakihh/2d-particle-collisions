@@ -4,16 +4,16 @@
 #include <vector>
 
 template <typename item>
-class MaxPQ {
+class MinPQ {
 
 public:
 
-    MaxPQ();                                    // construct an empty queue
-    MaxPQ(std::vector<item> &content);           // construct a queue from a vector
-    MaxPQ(item content[], int nb_of_items);     // construct a queue from an array
+    MinPQ();                                    // construct an empty queue
+    MinPQ(std::vector<item> &content);           // construct a queue from a vector
+    MinPQ(item content[], int nb_of_items);     // construct a queue from an array
 
     void insert(item it);                       // insert an item to the end of the queue
-    item delMax();                              // remove the maximum item 
+    item delMin();                              // remove the Minimum item 
     int  size();
     bool isEmpty();
 

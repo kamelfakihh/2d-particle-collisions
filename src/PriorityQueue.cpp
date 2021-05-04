@@ -3,10 +3,10 @@
 #include <vector>
 
 template <typename item>
-MaxPQ<item>::MaxPQ() : content(std::vector<item>()) {}
+MinPQ<item>::MinPQ() : content(std::vector<item>()) {}
 
 template <typename item>
-MaxPQ<item>::MaxPQ(std::vector<item> &c) : content(std::vector<item>()) 
+MinPQ<item>::MinPQ(std::vector<item> &c) : content(std::vector<item>()) 
 {
 
     for(unsigned int i=0; i<c.size(); i++){
@@ -16,7 +16,7 @@ MaxPQ<item>::MaxPQ(std::vector<item> &c) : content(std::vector<item>())
 }
 
 template <typename item>
-MaxPQ<item>::MaxPQ(item c[], int n) : content(std::vector<item>()) 
+MinPQ<item>::MinPQ(item c[], int n) : content(std::vector<item>()) 
 {
     for(unsigned int i=0; i<n; i++){
 
@@ -25,24 +25,24 @@ MaxPQ<item>::MaxPQ(item c[], int n) : content(std::vector<item>())
 }
 
 template <typename item>
-void MaxPQ<item>::insert(item it){
+void MinPQ<item>::insert(item it){
 
     content.push_back(it);      // insert item at the back
     swim(size()-1);             // move it to its position in the heap order
 }
 
 template <typename item>
-item MaxPQ<item>::delMax(){
+item MinPQ<item>::delMin(){
 
-    item max = content[0];
+    item min = content[0];
     exchange(0, size()-1);         // exchange first and last item
     content.pop_back();
-    sink(0);                       // move the item currently in max pos to its position in heap order
-    return max; 
+    sink(0);                       // move the item currently in min pos to its position in heap order
+    return min; 
 }
 
 template <typename item>
-void MaxPQ<item>::swim(int k){
+void MinPQ<item>::swim(int k){
 
     // if parent's value is less than the item 
     // exchange an item (k) with its parent (k/2)
@@ -56,7 +56,7 @@ void MaxPQ<item>::swim(int k){
 }
 
 template <typename item>
-void MaxPQ<item>::sink(int k){
+void MinPQ<item>::sink(int k){
 
     // if child's value is greater than the item 
     // exchange an item (k) with its greatest child (2k or 2k+1)
@@ -83,13 +83,13 @@ void MaxPQ<item>::sink(int k){
 }
 
 template <typename item>
-bool MaxPQ<item>::less(int n1, int n2){
+bool MinPQ<item>::less(int n1, int n2){
 
     return !(content[n1] < content[n2]);
 }
 
 template <typename item>
-void MaxPQ<item>::exchange(int n1, int n2){
+void MinPQ<item>::exchange(int n1, int n2){
 
     item temp = content[n1];
     content[n1] = content[n2];
@@ -97,13 +97,13 @@ void MaxPQ<item>::exchange(int n1, int n2){
 }
 
 template <typename item>
-int MaxPQ<item>::size(){
+int MinPQ<item>::size(){
 
     return content.size();
 }
 
 template <typename item>
-bool MaxPQ<item>::isEmpty(){
+bool MinPQ<item>::isEmpty(){
 
     return content.size() == 0;
 }
