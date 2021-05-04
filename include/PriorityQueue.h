@@ -14,6 +14,7 @@ public:
 
     void insert(item it);                       // insert an item to the end of the queue
     item delMin();                              // remove the Minimum item 
+    item getMin();                              // return the Minimum item 
     int  size();
     bool isEmpty();
 

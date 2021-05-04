@@ -42,6 +42,12 @@ item MinPQ<item>::delMin(){
 }
 
 template <typename item>
+item MinPQ<item>::getMin(){
+
+    return content[0];
+}
+
+template <typename item>
 void MinPQ<item>::swim(int k){
 
     // if parent's value is less than the item 
