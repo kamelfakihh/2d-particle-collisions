@@ -3,26 +3,18 @@
 #include "Vector.h"
 
 #include <math.h>
-#include <iostream>
 
 Particle::Particle(float x, float y, float vx, float vy, float radius, float mass)
 : sf::CircleShape(radius), r(Vector(x, y)), v(Vector(vx, vy)), radius(radius), m(mass), count(0)
 {
-    this->setPosition(r.x+radius/2, r.y+radius/2);
+    this->setPosition(r.x-radius, r.y-radius);
 }
-
-// void Particle::setPosition (Vector r){
-
-//     // transforms circle position, so its drawn around its center
-//     // and not the top left corner
-//     sf::CircleShape::setPosition(r.x+radius/2, r.y+radius/2);
-// }
 
 void Particle::move(float dt){
 
     r = r + (v*dt);
-    this->setPosition(r.x+radius/2, r.y+radius/2);
-    std::cout << r.x << " " << r.y << std::endl;
+    this->setPosition(r.x-radius, r.y-radius);
+
 }
 
 int Particle::getCount(){
@@ -32,8 +24,8 @@ int Particle::getCount(){
 
 float Particle::timeToHitParticle(Particle &P){
 
-    Vector dv = this->v - P.v;
-    Vector dr = this->r - P.r;
+    Vector dv = P.v - this->v;
+    Vector dr = P.r - this->r;
     float dvdr = dv*dr;
 
     if(dvdr >= 0){
@@ -81,15 +73,15 @@ float Particle::timeToHitHorizontalWall(){
 
 void Particle::bounceOffParticle(Particle *P){
 
-    Vector dv = this->v - P->v;
-    Vector dr = this->r - P->r;
+    Vector dv = P->v - this->v;
+    Vector dr = P->r - this->r;
     float dvdr = dv*dr;
     float sigma = radius + P->radius;
 
-    float j = ( 2*m*P->m*dvdr )/( m*P->m*sigma );
+    float j = ( 2*m*P->m*dvdr )/( (m+P->m)*sigma );
     
-    float jx = (j*(r.x - P->r.x))/sigma;
-    float jy = (j*(r.y - P->r.y))/sigma;
+    float jx = (j*dr.x)/sigma;
+    float jy = (j*dr.y)/sigma;
 
     this->v = this->v + Vector(jx, jy)*(1/m);
     P->v = P->v - Vector(jx, jy)*(1/P->m);
