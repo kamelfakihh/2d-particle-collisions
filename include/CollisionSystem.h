@@ -8,26 +8,26 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 
-class CollisionSystem : public sf::RenderWindow {
+class CollisionSystem {
 
 public:
 
-    CollisionSystem(std::vector<Particle> particles);
+    CollisionSystem(std::vector<Particle*> particles);
 
     // predict possible collisions of a particle
     void predict(Particle *P);
 
-    // update the screen
-    void update_screen();
+    // // update the screen
+    // void update_screen();
 
     // run the simulation
-    void simulate();
+    void update();
 
 private:
 
-    std::vector<Particle> particles;  // pointer to particles
+    std::vector<Particle*> particles;  // pointer to particles
     float t;                            // simulation clock
-    MaxPQ<Event> pq;
+    MinPQ<Event> pq;
 
 };
 
