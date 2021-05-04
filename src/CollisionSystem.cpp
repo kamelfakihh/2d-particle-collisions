@@ -36,37 +36,40 @@ void CollisionSystem::predict(Particle *P){
 
 }
 
-// void CollisionSystem::update_screen(){
+void CollisionSystem::moveParticles(float dt){
+    for(unsigned int i=0; i<particles.size(); i++){
+        particles[i]->move(dt);
+    }
+    t += dt;
+}
 
-//     this->clear(sf::Color::Black);
-
-//     for(unsigned int i=0; i<particles.size(); i++){
-//         this->draw(particles[i]);
-//     }
-
-//     this->display();
-// }
-
-void CollisionSystem::update(){
+void CollisionSystem::update(float dt){
 
     if(!pq.isEmpty()){
 
+        Event e = pq.getMin();
+        
+        // // if the next event (collision) time is not reached yet
+        // we only move particles
+        if(t+dt < e.getTime()){
+            
+            moveParticles(dt);
+            return;
+        }
 
         // get next event
-        Event e = pq.delMin();
+        e = pq.delMin();
         if(!e.isValid()) return;
 
         Particle* p1 = e.getP1();
         Particle* p2 = e.getP2();
 
         // update position and time (change particle position to the event time)
-        for(unsigned int i=0; i<particles.size(); i++){
-            particles[i]->move(e.getTime() - t);
-        }
-        t = e.getTime();
+        moveParticles(e.getTime() - t);
 
         // process collision events
-        if (p1 != nullptr && p2 != nullptr) p1->bounceOffParticle(p2);
+        if (p1 != nullptr && p2 != nullptr) 
+            p1->bounceOffParticle(p2);
         else if(p1 != nullptr && p2 == nullptr) p1->bounceOffVerticalWall();
         else if(p1 == nullptr && p2 != nullptr) p2->bounceOffHorizontalWall();
         

@@ -21,9 +21,11 @@ public:
     // void update_screen();
 
     // run the simulation
-    void update();
+    void update(float dt);
 
 private:
+
+    void moveParticles(float dt);
 
     std::vector<Particle*> particles;  // pointer to particles
     float t;                            // simulation clock
