@@ -68,8 +68,7 @@ void CollisionSystem::update(float dt){
         moveParticles(e.getTime() - t);
 
         // process collision events
-        if (p1 != nullptr && p2 != nullptr) 
-            p1->bounceOffParticle(p2);
+        if (p1 != nullptr && p2 != nullptr) p1->bounceOffParticle(p2);
         else if(p1 != nullptr && p2 == nullptr) p1->bounceOffVerticalWall();
         else if(p1 == nullptr && p2 != nullptr) p2->bounceOffHorizontalWall();
         
