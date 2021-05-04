@@ -11,7 +11,7 @@ public:
 
     Particle(float x, float y, float vx, float vy, float raduis, float mass);
 
-    void setPosition (Vector r);     // overloaded base class method
+    // void setPosition (Vector r);     // overloaded base class method
     void move(float dt);                    // update particle position
     int getCount();                     // return number of collisions
 

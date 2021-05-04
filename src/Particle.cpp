@@ -8,20 +8,20 @@
 Particle::Particle(float x, float y, float vx, float vy, float radius, float mass)
 : sf::CircleShape(radius), r(Vector(x, y)), v(Vector(vx, vy)), radius(radius), m(mass), count(0)
 {
-    this->setPosition(r);
+    this->setPosition(r.x+radius/2, r.y+radius/2);
 }
 
-void Particle::setPosition (Vector r){
+// void Particle::setPosition (Vector r){
 
-    // transforms circle position, so its drawn around its center
-    // and not the top left corner
-    sf::CircleShape::setPosition(r.x+radius/2, r.y+radius/2);
-}
+//     // transforms circle position, so its drawn around its center
+//     // and not the top left corner
+//     sf::CircleShape::setPosition(r.x+radius/2, r.y+radius/2);
+// }
 
 void Particle::move(float dt){
 
     r = r + (v*dt);
-
+    this->setPosition(r.x+radius/2, r.y+radius/2);
     std::cout << r.x << " " << r.y << std::endl;
 }
 
