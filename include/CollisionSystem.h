@@ -8,7 +8,7 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 
-class CollisionSystem {
+class CollisionSystem : public sf::RenderWindow {
 
 public:
 
@@ -17,15 +17,13 @@ public:
     // predict possible collisions of a particle
     void predict(Particle *P);
 
-    // // update the screen
-    // void update_screen();
+    // update the screen
+    void update_screen();
 
     // run the simulation
-    void update(float dt);
+    void simulate();
 
 private:
-
-    void moveParticles(float dt);
 
     std::vector<Particle*> particles;  // pointer to particles
     float t;                            // simulation clock
