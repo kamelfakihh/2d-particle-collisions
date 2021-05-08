@@ -5,15 +5,16 @@
 #include <math.h>
 
 Particle::Particle(float x, float y, float vx, float vy, float radius, float mass)
-: sf::CircleShape(radius), r(Vector(x, y)), v(Vector(vx, vy)), radius(radius), m(mass), count(0)
+: sf::CircleShape(radius*SCRN_W), r(Vector(x, y)), v(Vector(vx, vy)), radius(radius), m(mass), count(0)
 {
-    this->setPosition(r.x-radius, r.y-radius);
+    this->setPosition((r.x -radius)*SCRN_W, (r.y -radius)*SCRN_H);
 }
 
 void Particle::move(float dt){
 
     r = r + (v*dt);
-    this->setPosition(r.x-radius, r.y-radius);
+    // this->setPosition(r.x -radius, r.y -radius);
+    this->setPosition((r.x -radius)*SCRN_W, (r.y -radius)*SCRN_H);
 
 }
 
@@ -48,12 +49,18 @@ float Particle::timeToHitVerticalWall(){
     // time to hit right wall
     if(v.x > 0){
 
-        return (R_WALL_POS - radius - r.x)/v.x;
+        // return (R_WALL_POS - radius - r.x)/v.x;
+        return (1 - radius - r.x)/v.x;
     }
     // time to hit right wall
-    else{
+    else if(v.x < 0){
 
-        return -(r.x - radius - L_WALL_POS)/v.x;
+        // return -(r.x - radius - L_WALL_POS)/v.x;
+        return -(r.x - radius)/v.x;
+    }
+    else {
+
+        return INFINITY;
     }
 }
 
@@ -62,12 +69,17 @@ float Particle::timeToHitHorizontalWall(){
     // time to down wall
     if(v.y > 0){
 
-        return (D_WALL_POS - radius - r.y)/v.y;
+        // return (D_WALL_POS - radius - r.y)/v.y;
+        return (1 - radius - r.y)/v.y;
     }
     // time to up wall
-    else{
+    else if(v.y < 0){
 
-        return -(r.y - radius - U_WALL_POS)/v.y;
+        // return -(r.y - radius - U_WALL_POS)/v.y;
+        return -(r.y - radius)/v.y;
+    }else {
+
+        return INFINITY;
     }
 }
 
