@@ -5,56 +5,38 @@
 #include "Constants.h"
 
 #include <vector>
-#include <math.h>
-#include <stdlib.h>
+#include <fstream>
+#include <iostream>
+#include <string>
 #include <SFML/Graphics.hpp>
 
 int main(int argc, char *argv[]){
 
+    std::string filename("data.txt");
+    if(argc >= 2) filename = std::string(argv[1]);
+
+    std::ifstream input(filename, std::ios::in);
 	std::vector<Particle*> particles;
 
-    srand(time(nullptr));
+    float x, y, vx, vy, mass, radius, temp;
 
-    int nb;
-    if(argc >= 2) nb = atoi(argv[1]);
-    else nb = 10;
+    if(input.is_open()){
 
-    for(int i=0; i<nb; i++){
-        int r = 10 + rand()%15;
-        float mass = 18 + rand()%20;
-        float x = r + rand()%(SCRN_W-r);
-        float y = r + rand()%(SCRN_H-r);
-        float vx = ((float)rand()/(float)(RAND_MAX)) * 0.3 - 0.3;
-        float vy = ((float)rand()/(float)(RAND_MAX)) * 0.3 - 0.3;
-        particles.push_back(new Particle(x, y, vx, vy, r, mass));
-    }
+        input >> temp;
 
-    // std::vector<Particle*> particles = {&p1};
-	CollisionSystem C(particles);
-
-    sf::Clock clock;
-    sf::RenderWindow window(sf::VideoMode(SCRN_W, SCRN_H), "particles");
-
-    while(window.isOpen())
-    {
-        sf::Event event;
-        while(window.pollEvent(event)){
-            if(event.type == sf::Event::Closed)
-            window.close();
+        while(input >> x >> y >> vx >> vy >> radius >> mass >> temp >> temp >> temp){
+            particles.push_back(new Particle(x, y, vx, vy, radius, mass));
         }
 
-        window.clear(sf::Color::Black);
-        sf::Time elapsed = clock.restart();
+        CollisionSystem C(particles);
 
-		C.update(elapsed.asMilliseconds());
+        C.simulate();
 
-		for(unsigned int i=0; i<particles.size(); i++){
-			window.draw(*particles[i]);
-		}
+    }else{
 
-        window.display();
-
+        std::cout << "failed to open file!" << std::endl;
     }
+
 
 	return 0;
 }
